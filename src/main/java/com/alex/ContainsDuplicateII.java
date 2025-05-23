@@ -7,25 +7,29 @@ import java.util.LinkedList;
 
 public class ContainsDuplicateII {
     public boolean containsNearbyDuplicate(int[] nums, int k) {
-        if(nums.length<=k) {
-            HashSet<Integer> set = new HashSet<>();
-            for(int num : nums) {
-                if(!set.add(num)) return true;
+        HashSet<Integer> set = new HashSet<>();
+
+        int j = 0;
+        for(int i : nums) {
+            if(!set.add(i))
+                return true;
+
+            if(set.size()>k) {
+                set.remove(nums[j]);
+                j++;
             }
-            return false;
+
         }
 
-        LinkedList<Integer> set = new LinkedList<>();
-
-        for(int num : Arrays.copyOf(nums, k+1)) {
-            if(set.contains(num)) return true;
-            else set.add(num);
-        }
-        for(int num : Arrays.copyOfRange(nums, k+1, nums.length)) {
-            set.remove();
-            if(set.contains(num)) return true;
-            else set.add(num);
-        }
         return false;
+
+
+//        for(int i = 0; i < nums.length-1; i++) {
+//            for(int j = i+1; j < Math.min(nums.length, i+k+1); j++) {
+//                if(nums[i] == nums[j]) return true;
+//            }
+//        }
+//        return false;
+
     }
 }
